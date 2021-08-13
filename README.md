@@ -1,2 +1,2 @@
 # Post-Api
-## REST API for Post application
+REST API for Post application
