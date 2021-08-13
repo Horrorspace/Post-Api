@@ -1,0 +1,106 @@
+{
+  "name": "posts",
+  "version": "1.0.0",
+  "description": "Application for writing notes",
+  "main": "index.tsx",
+  "scripts": {
+    "test": "jest",
+    "build": "cross-env NODE_ENV=production webpack --mode production",
+    "dev": "cross-env NODE_ENV=development webpack --mode development",
+    "start": "cross-env NODE_ENV=development webpack serve --mode development --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Horrorspace/Posts.git"
+  },
+  "keywords": [
+    "ts",
+    "typescript",
+    "react",
+    "redux"
+  ],
+  "author": {
+    "name": "eugenii",
+    "email": "utkineugeniy@gmail.com"
+  },
+  "license": "CC BY-NC 3.0",
+  "bugs": {
+    "url": "https://github.com/Horrorspace/Posts/issues"
+  },
+  "homepage": "https://github.com/Horrorspace/Posts#readme",
+  "eslintConfig": {
+    "plugins": [
+      "import"
+    ],
+    "rules": {
+      "import/no-unresolved": "error"
+    },
+    "settings": {
+      "import/parsers": {
+        "@typescript-eslint/parser": [
+          ".ts",
+          ".tsx"
+        ]
+      },
+      "import/resolver": {
+        "typescript": {
+          "alwaysTryTypes": true,
+          "project": "path/to/folder"
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-react": "^7.13.13",
+    "@babel/preset-typescript": "^7.13.0",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@types/axios": "^0.14.0",
+    "@types/jest": "^26.0.24",
+    "@types/react": "^17.0.16",
+    "@types/react-dom": "^17.0.7",
+    "@types/react-router-dom": "^5.1.7",
+    "axios": "^0.21.1",
+    "babel-jest": "^27.0.6",
+    "babel-loader": "^8.2.2",
+    "bootstrap": "^5.0.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "copy-webpack-plugin": "^9.0.0",
+    "core-js": "^3.14.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^5.2.6",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "file-loader": "^6.2.0",
+    "font-awesome": "^4.7.0",
+    "fontawesome": "^5.6.3",
+    "html-webpack-plugin": "^5.3.1",
+    "jest": "^27.0.6",
+    "mini-css-extract-plugin": "^1.6.0",
+    "node-sass": "^6.0.0",
+    "optimize-css-assets-webpack-plugin": "^6.0.0",
+    "react": "^17.0.2",
+    "react-bootstrap": "^1.6.1",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.1.0",
+    "redux-saga": "^1.1.3",
+    "redux-thunk": "^2.3.0",
+    "regenerator-runtime": "^0.13.7",
+    "rxjs": "^7.3.0",
+    "rxjs-operators": "^1.1.3",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.0.0",
+    "style-loader": "^2.0.0",
+    "terser-webpack-plugin": "^5.1.3",
+    "ts-jest": "^27.0.3",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.2",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
