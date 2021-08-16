@@ -24,6 +24,10 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'index.html'))
 })
 
+app.all('*', (req, res) => {
+    console.log(req.method)
+})
+
 app.listen(PORT, () => {
     console.log(`Server has been started on port ${PORT}...`)
 });
