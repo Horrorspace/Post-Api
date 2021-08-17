@@ -1,5 +1,5 @@
 {
     "port": 3007,
     "jwtSecret": "test post",
-    "mongoUri": "mongodb+srv://admin:968574@cluster0.x5hpl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongoUri": "mongodb+srv://admin:968574@cluster0.x5hpl.mongodb.net/db?retryWrites=true&w=majority"
 }
