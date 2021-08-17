@@ -2,13 +2,14 @@ import {IPostData, IPost} from 'interfaces/IPosts'
 import {Schema, model} from 'mongoose'
 
 
-// export const posts = new Schema({
+// export const postsScheme = new Schema({
 //   userId: {type: Schema.Types.Number, required: true},
 //   id: {type: Schema.Types.Number, required: true, unique: true},
 //   title: {type: Schema.Types.String, required: true},
 //   body: {type: Schema.Types.String, required: true},
-// })
+// });
 
+//export const posts = model('posts', postsScheme);
 
 
 export const posts: IPostData[] = [
