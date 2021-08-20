@@ -74,6 +74,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mongodb": "^4.1.0",
     "mongoose": "^5.13.7"
   }
 }
