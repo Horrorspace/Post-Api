@@ -13,3 +13,4 @@ export interface IPostUserId {
 
 export interface IPost extends IPostId, IPostBody {}
 export interface IPostData extends IPost, IPostUserId {}
+export interface INewPost extends IPostBody, IPostUserId {}

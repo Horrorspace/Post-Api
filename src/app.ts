@@ -5,6 +5,8 @@ import mongoose from 'mongoose'
 import {IConf} from './interfaces/config'
 import config from './config/default.json'
 import {router as postRouter} from '../src/routes/post.routes'
+import {router as authRouter} from '../src/routes/auth.routes'
+import bodyParser from 'body-parser'
 import {MongoClient} from 'mongodb'
 
 import {IPostData, IPost} from 'interfaces/IPosts'
@@ -19,10 +21,14 @@ const __dirname: string = path.dirname(__filename);
 console.log(__dirname);
 console.log(path.join(__dirname, 'build', 'client'));
 
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
+
+app.use('/api/auth', authRouter);
 app.use('/api/posts', postRouter);
 app.use(cors());
 
-app.use('/', express.static(path.join(__dirname, 'client', 'public')))
+app.use('/public/', express.static(path.join(__dirname, 'client', 'public')))
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'client', 'index.html'))
@@ -31,14 +37,6 @@ app.get('*', (req, res) => {
 app.all('*', (req, res) => {
     console.log(req.method)
 })
-
-// console.log(config.mongoUri);
-// const mongoClient = new MongoClient(config.mongoUri, {
-//   tlsCAFile: '/etc/ssl/certs/cacert.pem',
-//   tlsAllowInvalidHostnames: true
-// });
-
-//mongoClient.connect().then(val => console.log(val.options.dbName));
 
 async function start() {
   try {
