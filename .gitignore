@@ -2,3 +2,5 @@ node_modules
 build
 coverage
 tsconfig.tsbuildinfo
+key.pem
+cert.pem

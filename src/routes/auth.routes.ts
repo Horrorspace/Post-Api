@@ -4,7 +4,7 @@ import {User} from '../models/user'
 import {check, validationResult} from 'express-validator'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import config from 'config/default.json'
+import config from '../config/default.json'
 import {IConf} from 'interfaces/config'
 
 config as IConf;
@@ -43,9 +43,16 @@ router.post(
             }
 
             const users = await User.find();
-            const idList: number[] = users.map(val => val.userId);
-            const maxId: number = idList.reduce((acc, val) => acc > val ? acc : val);
-            const newId: number = maxId + 1;
+            let newId: number;
+            if(users.length > 0) {
+                const idList: number[] = users.map(val => val.userId);
+                const maxId: number = idList.reduce((acc, val) => acc > val ? acc : val);
+                newId = maxId + 1;
+    
+            }
+            else {
+                newId = 1
+            }
 
             const hashedPass: string = await bcrypt.hash(password, 15);
             const user = new User({email, password: hashedPass, userId: newId});

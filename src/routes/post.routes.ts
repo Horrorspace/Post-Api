@@ -17,9 +17,17 @@ router.post('/', async (req, res) => {
   try {
     const newPostData = req.body as INewPost;
     const posts = await Post.find();
-    const idList: number[] = posts.map(val => val.id);
-    const maxId: number = idList.reduce((acc, val) => acc > val ? acc : val);
-    const newId: number = maxId + 1;
+    
+    let newId: number;
+    if(posts.length > 0) {
+      const idList: number[] = posts.map(val => val.id);
+      const maxId: number = idList.reduce((acc, val) => acc > val ? acc : val);
+      newId = maxId + 1;
+    }
+    else {
+      newId = 1;
+    }
+
     const newPost: IPostData = {...newPostData, id: newId};
     const post = new Post(newPost);
     await post.save();

@@ -7,10 +7,10 @@ import config from './config/default.json'
 import {router as postRouter} from '../src/routes/post.routes'
 import {router as authRouter} from '../src/routes/auth.routes'
 import bodyParser from 'body-parser'
-import {MongoClient} from 'mongodb'
+import https from 'https'
+import fs from 'fs'
 
-import {IPostData, IPost} from 'interfaces/IPosts'
-import {Schema, model} from 'mongoose'
+
 
 config as IConf;
 
@@ -38,6 +38,9 @@ app.all('*', (req, res) => {
     console.log(req.method)
 })
 
+const privateKey = fs.readFileSync(path.resolve(__dirname, 'key.pem'));
+const certificate = fs.readFileSync(path.resolve(__dirname, 'cert.pem'));
+
 async function start() {
   try {
     await mongoose.connect(config.mongoUri, {
@@ -47,9 +50,15 @@ async function start() {
       tlsCAFile: '/etc/ssl/certs/cacert.pem',
       tlsAllowInvalidHostnames: true
     });
-    app.listen(PORT, () => {
+    https.createServer({
+      key: privateKey,
+      cert: certificate
+    }, app).listen(PORT, () => {
       console.log(`Server has been started on port ${PORT}...`)
-    });
+    })
+    // app.listen(PORT, () => {
+    //   console.log(`Server has been started on port ${PORT}...`)
+    // });
   } catch (e) {
     console.log('Server Error', e.message)
     process.exit(1)
