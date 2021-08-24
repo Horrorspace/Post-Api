@@ -1,10 +1,11 @@
 import {INewPost, IPostData, IPostId} from '../interfaces/IPosts'
 import {Router} from 'express'
 import {Post} from '../models/posts'
+import {authMiddleware} from '../middleware/auth.middleware'
 
 export const router: Router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
       const posts = await Post.find();
       res.json(posts);
@@ -13,7 +14,7 @@ router.get('/', async (req, res) => {
     }
   })
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
     const newPostData = req.body as INewPost;
     const posts = await Post.find();
@@ -38,7 +39,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.delete('/*', async (req, res) => {
+router.delete('/*', authMiddleware, async (req, res) => {
   try {
     const regEx: RegExp = /^\//;
     const urlId: number = parseInt(req.url.replace(regEx, ''), 10);
@@ -56,7 +57,7 @@ router.delete('/*', async (req, res) => {
   }
 })
 
-router.put('/*', async (req, res) => {
+router.put('/*', authMiddleware, async (req, res) => {
   try {
     const regEx: RegExp = /^\//;
     const urlId: number = parseInt(req.url.replace(regEx, ''), 10);
