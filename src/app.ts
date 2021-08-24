@@ -14,12 +14,20 @@ import fs from 'fs'
 
 config as IConf;
 
+interface options {
+  privateKey: string;
+  certificate:  string;
+}
 
-const PORT: number = config.port || 4220;
+
+const PORT: number = config.port || 80;
+const httpsPort: number = config.httpsPort || 443;
 const app = express();
 const __dirname: string = path.dirname(__filename);
-console.log(__dirname);
-console.log(path.join(__dirname, 'build', 'client'));
+const options: options = {
+  privateKey: fs.readFileSync(path.resolve(__dirname, 'key.pem')),
+  certificate: fs.readFileSync(path.resolve(__dirname, 'cert.pem'))
+}
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
@@ -38,8 +46,6 @@ app.all('*', (req, res) => {
     console.log(req.method)
 })
 
-const privateKey = fs.readFileSync(path.resolve(__dirname, 'key.pem'));
-const certificate = fs.readFileSync(path.resolve(__dirname, 'cert.pem'));
 
 async function start() {
   try {
@@ -50,15 +56,15 @@ async function start() {
       tlsCAFile: '/etc/ssl/certs/cacert.pem',
       tlsAllowInvalidHostnames: true
     });
-    https.createServer({
-      key: privateKey,
-      cert: certificate
-    }, app).listen(PORT, () => {
-      console.log(`Server has been started on port ${PORT}...`)
+    https.createServer(options, app).listen(httpsPort, () => {
+      res.end('secure!');
+      console.log(`HTTPS server has been started on port ${httpsPort}...`);
     })
-    // app.listen(PORT, () => {
-    //   console.log(`Server has been started on port ${PORT}...`)
-    // });
+    app.listen(PORT, () => {
+      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+      res.end();
+      console.log(`Server has been started on port ${PORT}...`);
+    });
   } catch (e) {
     console.log('Server Error', e.message)
     process.exit(1)
