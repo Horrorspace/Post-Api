@@ -8,6 +8,7 @@ import {router as postRouter} from '../src/routes/post.routes'
 import {router as authRouter} from '../src/routes/auth.routes'
 import bodyParser from 'body-parser'
 import https from 'https'
+import http from 'http'
 import fs from 'fs'
 
 
@@ -15,18 +16,19 @@ import fs from 'fs'
 config as IConf;
 
 interface options {
-  privateKey: string;
-  certificate:  string;
+  key: string | any;
+  cert:  string | any;
 }
 
 
-const PORT: number = config.port || 80;
+const PORT: number = config.port || 3007;
 const httpsPort: number = config.httpsPort || 443;
+const httpPort: number = config.httpPort || 80;
 const app = express();
 const __dirname: string = path.dirname(__filename);
 const options: options = {
-  privateKey: fs.readFileSync(path.resolve(__dirname, 'key.pem')),
-  certificate: fs.readFileSync(path.resolve(__dirname, 'cert.pem'))
+  key: fs.readFileSync(path.resolve(__dirname, 'key.pem')),
+  cert: fs.readFileSync(path.resolve(__dirname, 'cert.pem'))
 }
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -56,13 +58,17 @@ async function start() {
       tlsCAFile: '/etc/ssl/certs/cacert.pem',
       tlsAllowInvalidHostnames: true
     });
-    https.createServer(options, app).listen(httpsPort, () => {
-      res.end('secure!');
-      console.log(`HTTPS server has been started on port ${httpsPort}...`);
-    })
+    // https.createServer(options, app).listen(httpsPort, () => {
+    //   console.log(`HTTPS server has been started on port ${httpsPort}...`);
+    // });
+    // http.createServer((req, res) => {
+    //   console.log(req.url);
+    //   res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    //   res.end();
+    // }).listen(httpPort, () => {
+    //   console.log(`HTTP server has been started on port ${httpPort}...`);
+    // });
     app.listen(PORT, () => {
-      res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-      res.end();
       console.log(`Server has been started on port ${PORT}...`);
     });
   } catch (e) {

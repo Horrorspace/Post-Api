@@ -3,4 +3,5 @@ export interface IConf {
     jwtSecret: string;
     mongoUri: string;
     httpsPort: number;
+    httpPort: number;
 }
