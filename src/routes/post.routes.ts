@@ -5,7 +5,7 @@ import {authMiddleware} from '../middleware/auth.middleware'
 
 export const router: Router = Router();
 
-router.get('/', authMiddleware, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
       const posts = await Post.find();
       res.json(posts);
@@ -73,4 +73,8 @@ router.put('/*', authMiddleware, async (req, res) => {
   catch(e) {
     res.status(500).json({ message: 'Что-то пошло не так, попробуйте снова' })
   }
+})
+
+router.options('*', (req, res) => {
+  console.log(req.url)
 })
