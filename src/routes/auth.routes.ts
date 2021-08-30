@@ -83,8 +83,7 @@ router.post(
     ],
     passport.authenticate(
         'local', {
-            successRedirect: '/',
-            failureRedirect: 'login',
+            successMessage: 'You have been logined',
             failureFlash: false,
         }
     )
