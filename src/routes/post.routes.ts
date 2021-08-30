@@ -5,6 +5,7 @@ import {authMiddleware} from '../middleware/auth.middleware'
 
 export const router: Router = Router();
 
+
 router.get('/', async (req, res) => {
     try {
       const posts = await Post.find();

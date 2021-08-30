@@ -3,3 +3,5 @@ export interface IUser {
     userId: number;
     password: string;
 }
+
+

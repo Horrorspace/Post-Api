@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import config from '../config/default.json'
 import {IConf} from 'interfaces/config'
+import passport from 'passport'
 
 config as IConf;
 
@@ -80,53 +81,70 @@ router.post(
         check('password', 'Empty password')
             .exists()
     ],
-    async (req, res) => {
-        try {
-            const errors = validationResult(req);
+    passport.authenticate(
+        'local', {
+            successRedirect: '/',
+            failureRedirect: 'login',
+            failureFlash: false,
+        }
+    )
 
-            if(!errors.isEmpty()) {
-                return res.status(400).json({
-                    errors: errors.array(),
-                    message: 'Invalid data'
-                })
-            }
+    // async (req, res) => {
+    //     try {
+    //         const errors = validationResult(req);
 
-            const userData: IUser = req.body;
-            const {email, password} = userData;
+    //         if(!errors.isEmpty()) {
+    //             return res.status(400).json({
+    //                 errors: errors.array(),
+    //                 message: 'Invalid data'
+    //             })
+    //         }
 
-            const user = await User.findOne({email});
+    //         const userData: IUser = req.body;
+    //         const {email, password} = userData;
 
-            if(!user) {
-                return res.status(400).json({
-                    message: `User doesn't exist`
-                })
-            }
+    //         const user = await User.findOne({email});
 
-            const isMatch: boolean = await bcrypt.compare(password, user.password);
+    //         if(!user) {
+    //             return res.status(400).json({
+    //                 message: `User doesn't exist`
+    //             })
+    //         }
 
-            if(!isMatch) {
-                return res.status(400).json({
-                    message: 'Invalid password'
-                })
-            }
+    //         const isMatch: boolean = await bcrypt.compare(password, user.password);
+
+    //         if(!isMatch) {
+    //             return res.status(400).json({
+    //                 message: 'Invalid password'
+    //             })
+    //         }
             
-            const token = jwt.sign(
-                { userId: user.userId },
-                config.jwtSecret,
-                { expiresIn: '1h' }
-            )
+    //         const token = jwt.sign(
+    //             { userId: user.userId },
+    //             config.jwtSecret,
+    //             { expiresIn: '1h' }
+    //         )
 
 
-            res.status(201).json({
-                token, 
-                userId: user.userId
-            })
-        }
-        catch {
-            res.status(500).json({
-                message: 'Something wrong, try again'
-            })
-        }
-    }
+    //         res.status(201).json({
+    //             token, 
+    //             userId: user.userId
+    //         })
+    //     }
+    //     catch {
+    //         res.status(500).json({
+    //             message: 'Something wrong, try again'
+    //         })
+    //     }
+    // }
 )
 
+router.post(
+    '/logout',
+    (req, res) => {
+        req.logout();
+        res.status(200).json({
+            message: 'you have been logouted'
+        });
+    }
+)
